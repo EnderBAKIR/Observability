@@ -19,17 +19,25 @@ namespace Observability.ConsoleApp
 
             try
             {
-                
-
+                //activity => Span
+                var urlBody = "https://www.google.com";
                 var eventTags = new ActivityTagsCollection();
 
                 activity?.AddEvent(new("google a istek başladı", tags: eventTags));//eventler T anında görmek istediğiniz olayları tracede izlemek için eklenir.
-            s:
+                activity?.AddTag("request.url", urlBody);
+                activity?.AddTag("request.schema", "https");
+                activity?.AddTag("request.method", "get");
 
-                var result = await httpclient.GetAsync("https://www.google.com");
+                
 
+                var result = await httpclient.GetAsync(urlBody);
+                
                 var responseContent = await result.Content.ReadAsStringAsync();
+
+                activity?.AddTag("response.lenght", responseContent.Length);
+
                 eventTags.Add("google body Lenght", responseContent.Length);
+
                 activity?.AddEvent(new("google a istek tamamlandı", tags: eventTags));
 
                 return responseContent.Length;
