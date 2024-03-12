@@ -40,6 +40,12 @@ namespace Observability.ConsoleApp
 
                 activity?.AddEvent(new("google a istek tamamlandı", tags: eventTags));
 
+
+
+                var serviceTwo = new ServiceTwo();
+
+                var fileLength = serviceTwo.WriteToFile("Merhaba DÜnya");
+
                 return responseContent.Length;
             }
             catch (Exception ex)
