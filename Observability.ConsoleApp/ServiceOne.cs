@@ -15,22 +15,33 @@ namespace Observability.ConsoleApp
 
        internal async Task<int> MakeRequestToGoogle()
         {
+            using var activity = ActivitySourceProvider.Source.StartActivity(System.Diagnostics.ActivityKind.Producer, name: "CustomMakeRequestToGoogle");
 
+            try
+            {
+                
 
-            using var activity = ActivitySourceProvider.Source.StartActivity(System.Diagnostics.ActivityKind.Producer , name:"CustomMakeRequestToGoogle");
+                var eventTags = new ActivityTagsCollection();
 
-            var eventTags = new ActivityTagsCollection();
+                activity?.AddEvent(new("google a istek başladı", tags: eventTags));//eventler T anında görmek istediğiniz olayları tracede izlemek için eklenir.
+            s:
+
+                var result = await httpclient.GetAsync("https://www.google.com");
+
+                var responseContent = await result.Content.ReadAsStringAsync();
+                eventTags.Add("google body Lenght", responseContent.Length);
+                activity?.AddEvent(new("google a istek tamamlandı", tags: eventTags));
+
+                return responseContent.Length;
+            }
+            catch (Exception ex)
+            {
+                activity?.SetStatus(ActivityStatusCode.Error,ex.Message);
+                return -1;
+               
+            }
+
             
-            activity?.AddEvent(new("google a istek başladı", tags: eventTags));//eventler T anında görmek istediğiniz olayları tracede izlemek için eklenir.
-s:
-
-            var result = await httpclient.GetAsync("https://www.google.com");
-
-            var responseContent = await result.Content.ReadAsStringAsync();
-            eventTags.Add("google body Lenght", responseContent.Length);
-            activity?.AddEvent(new("google a istek tamamlandı", tags: eventTags));
-
-            return responseContent.Length;
 
         }
 
