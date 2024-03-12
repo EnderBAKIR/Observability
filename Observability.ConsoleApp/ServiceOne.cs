@@ -16,7 +16,7 @@ namespace Observability.ConsoleApp
         {
 
 
-            using var activity = ActivitySourceProvider.Source.StartActivity();
+            using var activity = ActivitySourceProvider.Source.StartActivity(System.Diagnostics.ActivityKind.Producer , name:"CustomMakeRequestToGoogle");
 
             var result = await httpclient.GetAsync("https://www.google.com");
 
