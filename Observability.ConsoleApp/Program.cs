@@ -6,7 +6,7 @@ using OpenTelemetry.Trace;
 
 Console.WriteLine("Hello, World!");
 
-var traceProvider = Sdk.CreateTracerProviderBuilder()
+using var traceProvider = Sdk.CreateTracerProviderBuilder()
     .AddSource(OpenTelemetryConstants.ActiviySourceName)//buradaki isimle oluşturduğumuz sınıf içerisinde ki isim eşleşerek bunu buluyor.
     .ConfigureResource(configure =>
     {
@@ -18,7 +18,7 @@ var traceProvider = Sdk.CreateTracerProviderBuilder()
                     new KeyValuePair<string, object>("host.environment", "dev")
                     
                 });
-    }).AddConsoleExporter().Build();
+    }).AddConsoleExporter().AddOtlpExporter().Build();
 
 
 var serviceHelper = new ServiceHelper();
