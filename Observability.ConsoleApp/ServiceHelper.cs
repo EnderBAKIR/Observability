@@ -19,9 +19,10 @@ namespace Observability.ConsoleApp
             Console.WriteLine($"google response lenght: {await serviceOne.MakeRequestToGoogle()}");
             
                 Console.WriteLine("Work1 tamamlandı.");
-            
 
-            
+            var serviceTwo = new ServiceTwo();
+
+            var fileLength = serviceTwo.WriteToFile("Merhaba DÜnya");
         }
     }
 }

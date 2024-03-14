@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,13 +11,12 @@ namespace Observability.ConsoleApp
     {
         internal async Task<int> WriteToFile(string text)
         {
-         using  var activity = ActivitySourceProvider.Source.StartActivity(); // tek aktivite kullanılacaksa tek bir using böyle kullanılabilir, öyle değilse scope içerisinde yapılmalıdır.
-
+            using var activity = ActivitySourceProvider.Source.StartActivity();
 
             await File.WriteAllTextAsync("myfile.txt", text);
 
-
             return (await File.ReadAllTextAsync("myFile.txt")).Length;
+
         }
     }
 }
