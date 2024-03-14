@@ -3,8 +3,28 @@ using Observability.ConsoleApp;
 using OpenTelemetry;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using System.Diagnostics;
 
 Console.WriteLine("Hello, World!");
+
+
+ActivitySource.AddActivityListener(new ActivityListener()
+{
+    ShouldListenTo=source=> source.Name==OpenTelemetryConstants.ActivitySourceFileName,
+    ActivityStarted=activity=>
+    {
+        Console.WriteLine("Activity Start");
+    },
+    ActivityStopped=activity=> 
+    { 
+        Console.WriteLine("Activity Stoped"); 
+    },
+
+});
+
+using var traceProviderFile = Sdk.CreateTracerProviderBuilder().AddSource(OpenTelemetryConstants.ActivitySourceFileName).Build();
+
+
 
 using var traceProvider = Sdk.CreateTracerProviderBuilder()
     .AddSource(OpenTelemetryConstants.ActiviySourceName)//buradaki isimle oluşturduğumuz sınıf içerisinde ki isim eşleşerek bunu buluyor.
