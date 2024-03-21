@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Order.API.OpenTelemetry
 {
-    internal class OpenTelemetryConstants
+    public class OpenTelemetryConstants
     {
-        internal const string ServiceName = "Order.API"; //"CompanyName.AppName.ComponentName" 
-        internal const string ServiceVersion = "1.0.0";
-        internal const string ActiviySourceName = "ActivitySource.Order.API";
+        public string ServiceName { get; set; } = null!;
+        public string ServiceVersion { get; set; } = null!;
+        public string ActiviySourceName { get; set; } = null!;
     }
 }

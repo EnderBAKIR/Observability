@@ -8,7 +8,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddOpenTelemetry().WithTracing(builder =>
 {
-    builder.
+   
 });
 
 
