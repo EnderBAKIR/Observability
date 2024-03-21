@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Observability.ConsoleApp", 
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{9AA13F0F-6D1F-48C1-A952-10D19AB67FE5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.API", "..\Order.API\Order.API.csproj", "{5EB0BFD9-DFDB-4332-817B-1B1399380365}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{9AA13F0F-6D1F-48C1-A952-10D19AB67FE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9AA13F0F-6D1F-48C1-A952-10D19AB67FE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9AA13F0F-6D1F-48C1-A952-10D19AB67FE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EB0BFD9-DFDB-4332-817B-1B1399380365}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EB0BFD9-DFDB-4332-817B-1B1399380365}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EB0BFD9-DFDB-4332-817B-1B1399380365}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EB0BFD9-DFDB-4332-817B-1B1399380365}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
