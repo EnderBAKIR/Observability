@@ -35,10 +35,11 @@ builder.Services.AddOpenTelemetry().WithTracing(options =>
             }
             return false;
         };
+        aspnetcoreoptions.RecordException = true;
 
 
 
-    });
+	});
     options.AddConsoleExporter(); //Console
     options.AddOtlpExporter(); // Jaeger/UI
 });
