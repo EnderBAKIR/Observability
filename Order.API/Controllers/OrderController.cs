@@ -8,11 +8,11 @@ namespace Order.API.Controllers
 	public class OrderController : ControllerBase
 	{
 		[HttpGet]
-		public IActionResult Create() // Jaegerde hata spanini görmek için olutşuruldu
+		public IActionResult Create() 
 		{
-			var a = 10;
-			var b = 0;
-			var c = a / b;
+			//var a = 10; exception fırlatılma durumu örneği
+			//var b = 0;
+			//var c = a / b;
 
 			return Ok();
 		}
