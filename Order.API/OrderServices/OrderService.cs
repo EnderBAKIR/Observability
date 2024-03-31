@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Order.API.OpenTelemetry;
+﻿using OpenTelemetry.Shared;
 using System.Diagnostics;
 
 namespace Order.API.OrderServices
 {
-	public class OrderService
+    public class OrderService
 	{
         public Task CreateAsync(OrderCreateRequestDto requestDto)
 		{
