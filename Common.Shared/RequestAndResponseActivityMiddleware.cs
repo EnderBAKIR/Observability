@@ -11,7 +11,14 @@ namespace Common.Shared
         }
 
 
+        public async Task InvokeAsync(HttpContext context)
+        {
+            context.Request.EnableBuffering();
 
+            var requestBodyStreamReader = new StreamReader(context.Request.Body);
+
+            var requestBody = await requestBodyStreamReader.ReadToEndAsync();
+        }
 
 
 
