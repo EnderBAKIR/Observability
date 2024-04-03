@@ -1,6 +1,8 @@
 using Order.API.OrderServices;
 using OpenTelemetry.Shared;
 using Common.Shared;
+using Order.API.Models;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +14,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<OrderService>();
 builder.Services.AddOpenTelemetryExt(builder.Configuration);
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"));
+});
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
