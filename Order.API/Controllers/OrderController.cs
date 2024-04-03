@@ -23,8 +23,8 @@ namespace Order.API.Controllers
 			//var c = a / b; 
 			#endregion
 
-			await _orderService.CreateAsync(orderCreateRequestDto);
-			return Ok(new OrderCreateResponseDto() {Id = new Random().Next(1, 500) });
+			return Ok(await  _orderService.CreateAsync(orderCreateRequestDto));
+			
 		}
 	}
 }
