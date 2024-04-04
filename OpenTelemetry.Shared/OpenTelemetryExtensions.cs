@@ -2,6 +2,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using System.Data.Common;
+using System.Diagnostics;
 
 namespace OpenTelemetry.Shared
 {
@@ -34,10 +36,25 @@ namespace OpenTelemetry.Shared
                         return false;
                     };
                     aspnetcoreoptions.RecordException = true;
+                    aspnetcoreoptions.EnrichWithException = (activity, dbcommand) =>
+                    {
+                        // Örnek için boş bırakıldı
+                    };
+                });
+                options.AddEntityFrameworkCoreInstrumentation(efcore =>
+                {
+                    efcore.SetDbStatementForText=true;
+                    efcore.SetDbStatementForStoredProcedure=true;
+                    efcore.EnrichWithIDbCommand = (activity, dbCommand) =>
+                    {
+
+                    };
                 });
                 options.AddConsoleExporter(); //Console
                 options.AddOtlpExporter(); // Jaeger/UI
+
             });
+            
         }
     }
 }
