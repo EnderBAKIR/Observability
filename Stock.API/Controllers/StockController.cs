@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Common.Shared.DTOs;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Stock.API.Controllers
@@ -7,6 +8,19 @@ namespace Stock.API.Controllers
     [ApiController]
     public class StockController : ControllerBase
     {
-        public async Task<IActionResult> CheckAndPaymentStart()
+        private readonly StockService _stockService;
+
+        public StockController(StockService stockService)
+        {
+            _stockService = stockService;
+        }
+
+        [HttpPost]
+        public  IActionResult CheckAndPaymentStart(StockCheckAndPaymenProcessRequestDto request)
+        {
+            var result = _stockService.CheckAndPaymentProcess(request);
+
+            return new ObjectResult(result) { StatusCode = result.StatusCode };
+        }
     }
 }

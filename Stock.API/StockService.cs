@@ -11,13 +11,13 @@ namespace Stock.API
 
             Dictionary<int, int> productStockList = new();
             productStockList.Add(1, 10);
-            productStockList.Add(1, 20);
-            productStockList.Add(1, 30);
+            productStockList.Add(2, 20);
+            productStockList.Add(3, 30);
 
             return productStockList;
         }
 
-        public async Task<ResponseDto<StockCheckAndPaymenProcessResponseDto>> CheckAndPaymentProcess(StockCheckAndPaymenProcessRequestDto request)
+        public ResponseDto<StockCheckAndPaymenProcessResponseDto> CheckAndPaymentProcess(StockCheckAndPaymenProcessRequestDto request)
         {
             var productStockList = GetProductStockList();
 
