@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Order.API.OrderServices;
+using System.Security.AccessControl;
 
 namespace Order.API.Controllers
 {
@@ -23,8 +24,11 @@ namespace Order.API.Controllers
 			//var c = a / b; 
 			#endregion
 
-			return Ok(await  _orderService.CreateAsync(orderCreateRequestDto));
-			
-		}
+			var result = await _orderService.CreateAsync(orderCreateRequestDto);
+
+
+            return new ObjectResult(result) { StatusCode = result.StatusCode };
+
+        }
 	}
 }

@@ -1,19 +1,26 @@
-﻿using OpenTelemetry.Shared;
+﻿using Azure.Core;
+using Common.Shared.DTOs;
+using OpenTelemetry.Shared;
 using Order.API.Models;
+using Order.API.StockServices;
 using System.Diagnostics;
+using System.Net;
+using System.Net.WebSockets;
 
 namespace Order.API.OrderServices
 {
     public class OrderService
     {
         private readonly AppDbContext _context;
+        private readonly StockService _stockServices;
 
-        public OrderService(AppDbContext context)
+        public OrderService(AppDbContext context, StockService stockServices)
         {
             _context = context;
+            _stockServices = stockServices;
         }
 
-        public async Task<OrderCreateResponseDto> CreateAsync(OrderCreateRequestDto requestDto)
+        public async Task<ResponseDto<OrderCreateResponseDto>> CreateAsync(OrderCreateRequestDto request)
         {
             Activity.Current?.SetTag("Asp.Net Core(instrumentation) Tag1", "Asp.Net Core(instrumentation) tag value");
             using var activity = ActivitySourceProvider.Source.StartActivity();
@@ -24,8 +31,8 @@ namespace Order.API.OrderServices
                 Created = DateTime.Now,
                 OrderCode = Guid.NewGuid().ToString(),
                 Status = OrderStatus.Succes,
-                UserId = requestDto.UserId,
-                Items = requestDto.Items.Select(x => new OrderItem()
+                UserId = request.UserId,
+                Items = request.Items.Select(x => new OrderItem()
                 {
                     Count = x.Count,
                     ProductId = x.ProductId,
@@ -35,16 +42,29 @@ namespace Order.API.OrderServices
             _context.Orders.Add(newOrder);
             await _context.SaveChangesAsync();
 
+            StockCheckAndPaymenProcessRequestDto stockRequest = new();
+
+            stockRequest.OrderCode = newOrder.OrderCode;
+            stockRequest.OrderItems = request.Items;
+
+            var (isSuccess, failMessage) = await _stockServices.CheckStockAndPaymentStartAsync(stockRequest);
+
+
+            if (!isSuccess)
+            {
+                return ResponseDto<OrderCreateResponseDto>.Fail(HttpStatusCode.InternalServerError.GetHashCode(), failMessage!);
+
+            }
+
+            activity?.AddEvent(new("Sipariş süreci tamamlandı."));
+
+            return ResponseDto<OrderCreateResponseDto>.Success(HttpStatusCode.OK.GetHashCode(), new OrderCreateResponseDto() { Id = newOrder.Id });
 
 
 
 
 
-            // veri tabanına kayıt yapıldı
-            activity.SetTag("Order User Id", requestDto.UserId);
-            activity?.AddEvent(new ActivityEvent("Sipariş süreci Tamamlandı"));
 
-            return new OrderCreateResponseDto() { Id = newOrder.Id };
         }
     }
 }
